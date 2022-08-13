@@ -34,6 +34,7 @@ onMounted(() => {
 const logout = () => {
   localStorage.removeItem('token');
   isLoggedIn.value = false;
+  window.location.href = '/';
 }
 </script>
 

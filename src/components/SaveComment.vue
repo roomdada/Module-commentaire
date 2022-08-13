@@ -22,11 +22,11 @@ const storeComment = async () => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   }).then((res) => {
-      successMessage.value = res.data.message;
+    successMessage.value = res.data.message;
   }).catch((err) => {
     console.log(err);
   }).finally(() => {
-     content.value = '';
+    content.value = '';
   });
 
 }
