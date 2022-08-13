@@ -7,7 +7,7 @@
           <router-link :to="'/'" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Articles</router-link>
           <a class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Categorie</a>
           <router-link v-if='!isLoggedIn' :to="'/login'" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Se connecter</router-link>
-          <router-link v-if='isLoggedIn' :to="'/login'" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Deconnexion</router-link>
+          <button v-if='isLoggedIn'  @click="logout" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Deconnexion</button>
         </ul>
       </nav>
     </div>
@@ -30,6 +30,11 @@ const isLoggedIn = ref(false);
 onMounted(() => {
   localStorage.getItem('token') ? isLoggedIn.value = true : isLoggedIn.value = false;
 });
+
+const logout = () => {
+  localStorage.removeItem('token');
+  isLoggedIn.value = false;
+}
 </script>
 
 

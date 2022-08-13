@@ -11,6 +11,7 @@ const auth = async () => {
   await axios.post("https://api-regs.herokuapp.com/api/auth/login", {...form}).then((res) => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', res.data.user);
+      window.location.href = '/';
     
   }).catch((err) => {
     console.log(err);
