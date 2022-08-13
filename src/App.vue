@@ -6,7 +6,8 @@
         <ul class="px-2">
           <router-link :to="'/'" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Articles</router-link>
           <a class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Categorie</a>
-          <a class="mx-2 text-xl text-indigo-600 hover:text-gray-500">S'inscrire</a>
+          <router-link v-if='!isLoggedIn' :to="'/login'" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Se connecter</router-link>
+          <router-link v-if='isLoggedIn' :to="'/login'" class="mx-2 text-xl text-indigo-600 hover:text-gray-500">Deconnexion</router-link>
         </ul>
       </nav>
     </div>
@@ -20,13 +21,15 @@
   <router-view></router-view>
 </template>
 
-<script>
+<script setup>
 
-export default {
-  name: 'App',
-  components: {
-  }
-}
+import { onMounted, ref } from 'vue';
+
+const isLoggedIn = ref(false);
+
+onMounted(() => {
+  localStorage.getItem('token') ? isLoggedIn.value = true : isLoggedIn.value = false;
+});
 </script>
 
 
