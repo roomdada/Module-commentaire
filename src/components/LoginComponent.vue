@@ -1,34 +1,57 @@
 <script setup>
-import axios from 'axios';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import store from '../store/store.js'
+import axiosHttpClient from '@/axios';
+
+
 const form = reactive({
   email: '',
   password: ''
 });
 
+const message = ref('');
 
-const auth = async () => {
-  await axios.post("https://api-regs.herokuapp.com/api/auth/login", { ...form }).then((res) => {
+const login = async () => {
+  await axiosHttpClient.post("auth/login", { ...form }).then((res) => {
     if (res.data.token) {
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', res.data.user);
+      store.commit('setToken', res.data.token);
       window.location.href = '/';
     }
   }).catch((err) => {
     console.log(err);
+    message.value = err.response.data.message;
+  }).finally(() => {
+    form.email = '';
+    form.password = '';
   });
 }
 
 </script>
 <template>
+
   <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Veuillez vous connecter</h2>
     </div>
 
+
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form class="space-y-6" @submit.prevent="auth">
+        <div v-if="message"
+          class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+          role="alert">
+          <svg aria-hidden="true" class="inline flex-shrink-0 mr-3 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Info</span>
+          <div>
+            <span class="font-medium">{{ message }}</span>
+          </div>
+        </div>
+        <form class="space-y-6" @submit.prevent="login">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
             <div class="mt-1">
@@ -64,7 +87,6 @@ const auth = async () => {
               connecter</button>
           </div>
         </form>
-
       </div>
     </div>
   </div>

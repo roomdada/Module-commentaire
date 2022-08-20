@@ -1,6 +1,7 @@
 <script setup>
-import axios from 'axios';
 import { defineProps, ref, onMounted } from 'vue';
+import store from '../store/store.js';
+import axiosHttpClient from '@/axios';
 
 const props = defineProps(['articleId']);
 const isLoggedIn = ref(false);
@@ -9,7 +10,8 @@ const successMessage = ref('');
 const content = ref('');
 
 onMounted(() => {
-  isLoggedIn.value = localStorage.getItem('token') ? true : false;
+  console.log(store.state);
+  isLoggedIn.value = store.state.user.token ? true : false;
 });
 
 const storeComment = async () => {
@@ -17,11 +19,8 @@ const storeComment = async () => {
     content: content.value,
     article_id: props.articleId,
   };
-  await axios.post('https://api-regs.herokuapp.com/api/comments', comment, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  }).then((res) => {
+  
+  await axiosHttpClient.post('comments', comment).then((res) => {
     successMessage.value = res.data.message;
   }).catch((err) => {
     console.log(err);
@@ -34,8 +33,7 @@ const storeComment = async () => {
 </script>
 <template>
   <div class="container mt-2 mb-10">
-    <div v-if="!isLoggedIn">
-      class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+    <div v-if="!isLoggedIn" class="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
       <svg aria-hidden="true" class="inline flex-shrink-0 mr-3 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
         xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd"

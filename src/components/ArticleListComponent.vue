@@ -1,21 +1,18 @@
-<script>
+<script setup>
 import useArticle from '@/composables/article.js';
 import { onMounted } from 'vue';
-export default {
-  setup() {
-    const { fetchArticles, articles, loading } = useArticle();
-    onMounted(() => {
-      fetchArticles();
-    });
+import HeaderComponent from '@/components/Partials/HeaderComponent.vue';
 
-    return {
-      articles,
-      loading
-    };
-  }
-}
+const { fetchArticles, articles, loading } = useArticle();
+
+onMounted(() => {
+  fetchArticles();
+});
+
 </script>
 <template>
+  <header-component title="Article for everyone" description="Nous vous proposons les meilleurs articles dans des domaines divers
+      & en vogue" />
   <div class="relative bg-gray-50 pt-16 pb-20 px-4 sm:px-6 lg:pt-24 lg:pb-28 lg:px-8">
     <div class="absolute inset-0">
       <div class="bg-white h-1/3 sm:h-2/3"></div>
@@ -31,7 +28,7 @@ export default {
             <div class="flex-1">
               <div class="flex justify-between mb-8">
                 <span class="text-xs text-gray-900 px-2 py-2 bg-green-100  border-2 border-green-900 rounded-full">
-                 {{ article.category.title }}
+                  {{ article.category.title }}
                 </span>
                 <span class="text-gray-500"> {{ article.comments_count }} commentaire(s) </span>
               </div>

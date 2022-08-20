@@ -5,12 +5,14 @@ import { useRoute } from 'vue-router';
 import SaveComment from './SaveComment.vue';
 export default {
   setup() {
-    
+
     const { fetchArticle, article, loading } = useArticle();
     const route = useRoute();
+
     onMounted(async () => {
       await fetchArticle(route.params.id);
     });
+    
     return {
       article,
       loading
@@ -46,9 +48,21 @@ export default {
           </div>
         </div>
       </div>
-
+    </div>
+    <!-- list all coommens -->
+    <div class="container mb-4 border-2 mt-4 border-gray-100">
+      <div class="mx-4">
+        <h2 class="text-2xl font-bold text-gray-900">Comments</h2>
+      </div>
+      <div class="flex justify-between">
+        <div class="mx-12">
+          <span class="text-bold text-sm">Roger : </span>
+          <span class="text-sm">{{ article.created_at }}</span>
+        </div>
+      </div>
     </div>
     <SaveComment :article-id='article.id' />
+
   </div>
 </template>
 
