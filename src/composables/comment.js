@@ -1,16 +1,27 @@
-import axios from 'axios';
 import { ref } from 'vue';
+import axiosHttpClient from '@/axios';
 
 export default function useComment() {
-  const baseUrl = "https://api-regs.herokuapp.com/api/comments";
   const loading = ref(false);
+  const comments = ref([])
+
+
   const saveComment = async (comment) => {
     loading.value = true;
-    await axios.post(baseUrl, comment).then((response) => {
+    await axiosHttpClient.post('comments', comment).then((response) => {
       console.log(response);
     }).catch((error) => {
       console.log(error);
     }).finally(() => loading.value = false);
   }
-  return { saveComment, loading }
+
+  const getComments = async (id) => {
+    loading.value = true;
+    await axiosHttpClient.get(`${'articles'}/${id}/${'comments'}`).then((response) => {
+      comments.value = response.data.data;
+    }).catch((error) => {
+      console.log(error);
+    }).finally(() => loading.value = false);
+  }
+  return { saveComment, getComments, loading, comments }
 }

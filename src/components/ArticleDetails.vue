@@ -3,19 +3,24 @@ import useArticle from '@/composables/article.js';
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import SaveComment from './SaveComment.vue';
+import useComment from '@/composables/comment.js';
 export default {
   setup() {
 
     const { fetchArticle, article, loading } = useArticle();
+    const { getComments, comments  } = useComment();
     const route = useRoute();
+   
 
     onMounted(async () => {
       await fetchArticle(route.params.id);
+      await getComments(route.params.id);
     });
-    
+
     return {
       article,
-      loading
+      loading,
+      comments
     };
   },
   components: { SaveComment }
@@ -51,15 +56,36 @@ export default {
     </div>
     <!-- list all coommens -->
     <div class="container mb-4 border-2 mt-4 border-gray-100">
-      <div class="mx-4">
-        <h2 class="text-2xl font-bold text-gray-900">Comments</h2>
-      </div>
-      <div class="flex justify-between">
-        <div class="mx-12">
-          <span class="text-bold text-sm">Roger : </span>
-          <span class="text-sm">{{ article.created_at }}</span>
+      <div class="mx-4 m-4">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Commentaires</h2>
+        <div class="flow-root">
+          <ul role="list" class="-mb-8">
+            <li v-for="comment in comments" v-bind:key="comment.id">
+              <div class="relative pb-8">
+                <div class="relative flex items-start space-x-3">
+                  <div class="relative">
+                    <img class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
+                      src="https://ui-avatars.com/api/?name=J+Auteur"
+                      alt="">
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div>
+                      <div class="text-sm">
+                        <a href="#" class="font-medium text-gray-900">Auteur</a>
+                      </div>
+                      <p class="mt-0.5 text-sm text-gray-500">{{ comment.created_at }}</p>
+                    </div>
+                    <div class="mt-2 text-sm text-gray-700">
+                      <p>{{ comment.content }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
+    
     </div>
     <SaveComment :article-id='article.id' />
 
