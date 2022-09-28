@@ -4,13 +4,15 @@ import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import SaveComment from './SaveComment.vue';
 import useComment from '@/composables/comment.js';
+import moment from 'moment';
 export default {
   setup() {
 
     const { fetchArticle, article, loading } = useArticle();
     const { getComments, comments  } = useComment();
     const route = useRoute();
-   
+    // change moment locale
+    moment.locale('fr');
 
     onMounted(async () => {
       await fetchArticle(route.params.id);
@@ -20,7 +22,8 @@ export default {
     return {
       article,
       loading,
-      comments
+      comments,
+      moment
     };
   },
   components: { SaveComment }
@@ -73,7 +76,7 @@ export default {
                       <div class="text-sm">
                         <a href="#" class="font-medium text-gray-900">Auteur</a>
                       </div>
-                      <p class="mt-0.5 text-sm text-gray-500">{{ comment.created_at }}</p>
+                      <p class="mt-0.5 text-sm text-gray-500">{{ moment(comment.created_at).format("LL") }}</p>
                     </div>
                     <div class="mt-2 text-sm text-gray-700">
                       <p>{{ comment.content }}</p>
@@ -88,6 +91,7 @@ export default {
     
     </div>
     <SaveComment :article-id='article.id' />
+
   </div>
 </template>
 
