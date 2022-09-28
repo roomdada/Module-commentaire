@@ -7,8 +7,8 @@ export default function useArticle() {
   const article = ref({});
 
   const fetchArticles = async () => {
+    loading.value = true;
     await axiosHttpClient.get('articles').then((response) => {
-      loading.value = true;
       articles.value = response.data.data;
     }).catch((error) => {
       console.log(error);

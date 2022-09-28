@@ -46,8 +46,11 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none" v-if="loading">
-        <p class="text-xl text-gray-900 text-extrabold">Chargement des données...</p>
+      <div class="mt-12 mx-auto lg:max-w-none mx-auto container text-center" v-if="loading">
+        <p class="text-2xl text-gray-900 text-extrabold text-center">
+          <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24"></svg>
+          Chargement des données...
+        </p>
       </div>
     </div>
     <!--loading -->

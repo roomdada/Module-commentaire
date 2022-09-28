@@ -48,7 +48,7 @@ const login = async () => {
           </svg>
           <span class="sr-only">Info</span>
           <div>
-            <span class="font-medium">{{ message }}</span>
+            <span class="font-medium">{{ message[0] }}</span>
           </div>
         </div>
         <form class="space-y-6" @submit.prevent="login">

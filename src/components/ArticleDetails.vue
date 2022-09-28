@@ -88,7 +88,6 @@ export default {
     
     </div>
     <SaveComment :article-id='article.id' />
-
   </div>
 </template>
 
