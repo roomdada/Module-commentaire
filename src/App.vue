@@ -2,7 +2,7 @@
   <div>
     <div class="mx-auto py-4 px-10 flex justify-between">
       <a class="text-3xl font-bold">Logo</a>
-      <navbar-component/>
+      <navbar-component />
     </div>
   </div>
   <router-view></router-view>

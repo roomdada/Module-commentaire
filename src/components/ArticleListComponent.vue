@@ -2,11 +2,12 @@
 import useArticle from '@/composables/article.js';
 import { onMounted } from 'vue';
 import HeaderComponent from '@/components/Partials/HeaderComponent.vue';
-
+import store from '@/store/store.js';
 const { fetchArticles, articles, loading } = useArticle();
 
 onMounted(() => {
   fetchArticles();
+  console.log(store.state);
 });
 
 </script>

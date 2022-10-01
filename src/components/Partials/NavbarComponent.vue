@@ -16,7 +16,8 @@ import store from '@/store/store.js';
 const isLoggedIn = ref(false);
 
 onMounted(() => {
-    isLoggedIn.value =  store.state.user.token ? true : false;
+    store.commit('initial');
+    isLoggedIn.value = store.state.user.isLoggedIn;
 });
 
 

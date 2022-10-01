@@ -14,6 +14,10 @@ export default {
     // change moment locale
     moment.locale('fr');
 
+    // refresh component when comment is added
+
+    
+
     onMounted(async () => {
       await fetchArticle(route.params.id);
       await getComments(route.params.id);

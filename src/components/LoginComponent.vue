@@ -14,7 +14,8 @@ const message = ref('');
 const login = async () => {
   await axiosHttpClient.post("auth/login", { ...form }).then((res) => {
     if (res.data.token) {
-      store.commit('setToken', res.data.token);
+      store.commit('setAuth', res.data);
+      console.log(store.state);
       window.location.href = '/';
     }
   }).catch((err) => {

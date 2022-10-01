@@ -6,29 +6,30 @@ const store = createStore({
       token: null,
       data: {},
       isLoggedIn: false
-    }
+    },
+    connected: false,
   },
   mutations: {
 
-    setUser(state, user) {
-      state.user = user;
-    },
-
-    setToken(state, token) {
-      state.user.token = token;
-      localStorage.setItem('token', token);
+    setAuth(state, user) {
+      state.user.data = user;
+      state.user.isLoggedIn = true;
+      localStorage.setItem('user', JSON.stringify(user));
     },
 
 
     initial(state) {
-      if(localStorage.getItem('token')) {
-        state.user.token = localStorage.getItem('token');
+      if(localStorage.getItem('user')) {
+        state.user.data = JSON.parse(localStorage.getItem('user'));
+        state.user.isLoggedIn = true;
+        state.connected = true;
       }
     },
 
+
     logout(state) {
       state.user.token = null;
-      localStorage.removeItem('token');
+      localStorage.removeItem('user');
     },
 
     getToken(state) {

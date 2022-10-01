@@ -10,9 +10,11 @@ const successMessage = ref('');
 const content = ref('');
 
 onMounted(() => {
-  console.log(store.state);
-  isLoggedIn.value = store.state.user.token ? true : false;
+  store.commit('initial');
+  isLoggedIn.value = store.state.user.isLoggedIn;  
+  console.log(isLoggedIn.value);
 });
+
 
 const storeComment = async () => {
   const comment = {
